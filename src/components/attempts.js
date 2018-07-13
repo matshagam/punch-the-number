@@ -26,7 +26,7 @@ export const Attempts = props => {
         onPress={props.checkGuess}
         onPressOut={Keyboard.dismiss}
         accessible={false}
-        disabled={props.count === 10 ? true : false}
+        disabled={!props.game ? true : false}
       >
         <Text style={styles.p}>{props.attempts}</Text>
       </TouchableOpacity>

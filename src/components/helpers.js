@@ -7,3 +7,7 @@ export function setAsync(key, value) {
 export function getAsync(key) {
   return AsyncStorage.getItem(key).then(data => JSON.parse(data));
 }
+
+export function randomNumber() {
+  return Math.floor(Math.random() * 100) + 1;
+}

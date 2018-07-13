@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-import { ButtonStart } from './component/buttonStart';
-import GameScreen from './gameScreen';
+import { ButtonStart } from './components/button-start';
+import GameScreen from './game-screen';
 
 export default class MainScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: true
+      visible: true,
+      name: 'Game'
     };
   }
 
@@ -28,7 +29,7 @@ export default class MainScreen extends React.Component {
           or too low and else how many attempts you have. You may train your
           brain or we show your last guesses.
         </Text>
-        <ButtonStart hideScreen={this.hideScreen} />
+        <ButtonStart name={this.state.name} hideScreen={this.hideScreen} />
       </View>
     ) : (
       <GameScreen />
