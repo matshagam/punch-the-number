@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-export const ButtonGame = props => {
+export const ButtonGame = ({ startGame, speech }) => {
   return (
-    <TouchableOpacity style={styles.circle} onPress={props.startGame}>
-      <Text style={styles.text}>{props.speech}</Text>
+    <TouchableOpacity style={styles.circle} onPress={startGame}>
+      <Text style={styles.text}>{speech}</Text>
     </TouchableOpacity>
   );
 };

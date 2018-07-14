@@ -80,7 +80,7 @@ export default class GameScreen extends React.Component {
   startGame = () => {
     this.startTimer();
     this.setState({
-      game: !this.state.game,
+      // game: !this.state.game
       attempts: 'Punch!',
       chance: '',
       randomNumber: randomNumber(),
@@ -131,7 +131,7 @@ export default class GameScreen extends React.Component {
   };
 
   render() {
-    // console.log(this.state.game, count);
+    console.log(this.state);
 
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">
@@ -150,16 +150,11 @@ export default class GameScreen extends React.Component {
               game={this.state.game}
             />
           </View>
-          <View style={styles.circle}>
-            {this.state.game ? (
-              <InputGuess getGuess={this.getGuess} chance={this.state.chance} />
-            ) : (
-              <ButtonGame
-                speech={this.state.speech}
-                startGame={this.startGame}
-              />
-            )}
-          </View>
+          {this.state.game ? (
+            <InputGuess getGuess={this.getGuess} chance={this.state.chance} />
+          ) : (
+            <ButtonGame speech={this.state.speech} startGame={this.startGame} />
+          )}
         </View>
       </KeyboardAvoidingView>
     );
@@ -192,14 +187,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 32,
     marginTop: 16
-  },
-  circle: {
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    margin: 16,
-    backgroundColor: '#fff'
   }
 });

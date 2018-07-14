@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, TextInput } from 'react-native';
 
-export const InputGuess = props => {
+export const InputGuess = ({ getGuess, chance }) => {
   return (
     <View style={styles.circle}>
       <TextInput
@@ -10,9 +10,9 @@ export const InputGuess = props => {
         keyboardType="numeric"
         clearTextOnFocus={true}
         style={styles.text}
-        onChangeText={value => props.getGuess(value)}
+        onChangeText={value => getGuess(value)}
       />
-      <Text style={styles.text}>{props.chance}</Text>
+      <Text style={styles.text}>{chance}</Text>
     </View>
   );
 };
@@ -23,5 +23,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold'
+  },
+  circle: {
+    height: 100,
+    width: 100,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    margin: 16,
+    backgroundColor: '#fff'
   }
 });
