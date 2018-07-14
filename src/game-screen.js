@@ -34,7 +34,7 @@ export default class GameScreen extends React.Component {
       guess: 0,
       randomNumber: randomNumber(),
       circleSize: 100,
-      timer: 15,
+      timer: 20,
       speech: 'Start',
       chance: 100
     };
