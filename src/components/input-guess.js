@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, StyleSheet, View, TextInput } from 'react-native';
 
 export const InputGuess = ({ getGuess, chance }) => {
+  console.log({ chance });
+
   return (
     <View style={styles.circle}>
       <TextInput

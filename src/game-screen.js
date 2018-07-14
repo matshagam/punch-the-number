@@ -9,13 +9,14 @@ import { RightCircle } from './components/right-circle';
 import { ButtonGame } from './components/button-game';
 
 import { setAsync, getAsync, randomNumber } from './components/helpers';
+
 var count = 0,
   lastGame = 0,
   trueGame = 0,
   interval;
 
 getAsync('attempts').then(data => {
-  lastGame = data;
+  lastGame = data === 10 ? 'Lost' : data;
 });
 getAsync('gameNumber').then(data => {
   trueGame = data;
@@ -26,7 +27,7 @@ export default class GameScreen extends React.Component {
     super(props);
 
     this.state = {
-      lastGame: lastGame === 10 ? 'Lost' : lastGame,
+      lastGame: lastGame,
       trueGame: trueGame,
       game: false,
       attempts: 'Punch!',
@@ -43,7 +44,7 @@ export default class GameScreen extends React.Component {
   checkGuess = () => {
     count++;
 
-    if (+this.state.guess === this.state.randomNumber) {
+    if (Number(this.state.guess) === this.state.randomNumber) {
       this.setState({
         chance: 'Win!'
       });
@@ -60,11 +61,11 @@ export default class GameScreen extends React.Component {
         attempts: 10 - count,
         circleSize: this.state.circleSize - 5
       });
-      if (+this.state.guess < this.state.randomNumber) {
+      if (Number(this.state.guess) < this.state.randomNumber) {
         this.setState({
           chance: 'Low!'
         });
-      } else if (+this.state.guess > this.state.randomNumber) {
+      } else if (Number(this.state.guess) > this.state.randomNumber) {
         this.setState({
           chance: 'High!'
         });
@@ -79,18 +80,24 @@ export default class GameScreen extends React.Component {
   };
 
   startGame = () => {
-    this.startTimer();
+    getAsync('attempts').then(data => {
+      this.setState({
+        lastGame: data === 10 ? 'Lost' : data
+      });
+    });
+
     this.setState({
       game: !this.state.game,
       attempts: 'Punch!',
-      chance: '',
+      chance: '?',
       randomNumber: randomNumber(),
       trueGame: this.state.trueGame + 1,
-      lastGame: count === 10 ? 'Lost' : count - 1,
       circleSize: 100,
       timer: 15
     });
     count = 0;
+
+    this.startTimer();
   };
 
   endGame = () => {
@@ -102,7 +109,9 @@ export default class GameScreen extends React.Component {
         game: !this.state.game,
         guess: '',
         speech:
-          +this.state.guess === this.state.randomNumber ? 'YAPPY!' : 'OHHH!'
+          Number(this.state.guess) === this.state.randomNumber
+            ? 'YAPPY!'
+            : 'OHHH!'
       },
       () => {
         setTimeout(() => {
@@ -113,7 +122,10 @@ export default class GameScreen extends React.Component {
       }
     );
 
-    setAsync('attempts', count === 10 ? count : count - 1);
+    setAsync(
+      'attempts',
+      Number(this.state.guess) === this.state.randomNumber ? count : 10
+    );
     setAsync('gameNumber', this.state.trueGame);
   };
 
@@ -132,6 +144,8 @@ export default class GameScreen extends React.Component {
   };
 
   render() {
+    console.log(this.state.randomNumber);
+
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">
         <View style={styles.header}>
