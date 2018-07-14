@@ -72,15 +72,16 @@ export default class GameScreen extends React.Component {
     }
   };
 
-  getGuess = number =>
+  getGuess = number => {
     this.setState({
       guess: number
     });
+  };
 
   startGame = () => {
     this.startTimer();
     this.setState({
-      // game: !this.state.game
+      game: true,
       attempts: 'Punch!',
       chance: '',
       randomNumber: randomNumber(),
@@ -98,7 +99,7 @@ export default class GameScreen extends React.Component {
 
     this.setState(
       {
-        game: !this.state.game,
+        game: false,
         guess: '',
         speech:
           +this.state.guess === this.state.randomNumber ? 'YAPPY!' : 'OHHH!'
@@ -131,8 +132,6 @@ export default class GameScreen extends React.Component {
   };
 
   render() {
-    console.log(this.state);
-
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">
         <View style={styles.header}>
@@ -150,10 +149,10 @@ export default class GameScreen extends React.Component {
               game={this.state.game}
             />
           </View>
-          {this.state.game ? (
-            <InputGuess getGuess={this.getGuess} chance={this.state.chance} />
-          ) : (
+          {!this.state.game ? (
             <ButtonGame speech={this.state.speech} startGame={this.startGame} />
+          ) : (
+            <InputGuess getGuess={this.getGuess} chance={this.state.chance} />
           )}
         </View>
       </KeyboardAvoidingView>
