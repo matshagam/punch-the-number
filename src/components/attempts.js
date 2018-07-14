@@ -7,28 +7,28 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-export const Attempts = props => {
+export const Attempts = ({ game, checkGuess, attempts, circleSize, count }) => {
   return (
     <View style={[styles.button, { backgroundColor: '#6041CF' }]}>
       <TouchableOpacity
         style={
-          props.count !== 10
+          count !== 10 && game
             ? [
                 styles.button,
                 {
-                  height: props.circleSize,
-                  width: props.circleSize,
-                  borderRadius: props.circleSize
+                  height: circleSize,
+                  width: circleSize,
+                  borderRadius: circleSize
                 }
               ]
             : [styles.button, { backgroundColor: '#6041CF' }]
         }
-        onPress={props.checkGuess}
+        onPress={checkGuess}
         onPressOut={Keyboard.dismiss}
         accessible={false}
-        disabled={!props.game ? true : false}
+        disabled={!game ? true : false}
       >
-        <Text style={styles.p}>{props.attempts}</Text>
+        <Text style={styles.p}>{game ? attempts : null}</Text>
       </TouchableOpacity>
     </View>
   );

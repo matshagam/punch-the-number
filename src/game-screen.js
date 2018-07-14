@@ -81,7 +81,7 @@ export default class GameScreen extends React.Component {
   startGame = () => {
     this.startTimer();
     this.setState({
-      game: true,
+      game: !this.state.game,
       attempts: 'Punch!',
       chance: '',
       randomNumber: randomNumber(),
@@ -99,7 +99,7 @@ export default class GameScreen extends React.Component {
 
     this.setState(
       {
-        game: false,
+        game: !this.state.game,
         guess: '',
         speech:
           +this.state.guess === this.state.randomNumber ? 'YAPPY!' : 'OHHH!'

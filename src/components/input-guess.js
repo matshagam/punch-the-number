@@ -6,7 +6,6 @@ export const InputGuess = ({ getGuess, chance }) => {
     <View style={styles.circle}>
       <TextInput
         maxLength={2}
-        placeholder="100"
         keyboardType="numeric"
         clearTextOnFocus={true}
         style={styles.text}
