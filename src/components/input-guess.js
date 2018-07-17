@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 
-export const InputGuess = ({ getGuess, chance }) => {
+export const InputGuess = ({ getGuess }) => {
   return (
     <View style={styles.circle}>
       <TextInput
@@ -9,9 +9,9 @@ export const InputGuess = ({ getGuess, chance }) => {
         keyboardType="numeric"
         clearTextOnFocus={true}
         style={styles.text}
+        placeholder="100"
         onChangeText={value => getGuess(value)}
       />
-      <Text style={styles.text}>{chance}</Text>
     </View>
   );
 };

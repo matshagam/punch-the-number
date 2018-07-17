@@ -10,6 +10,7 @@ export default class Chance extends React.Component {
   componentDidMount() {
     this.animate();
   }
+
   animate() {
     this.animatedValue.setValue(0);
     Animated.timing(this.animatedValue, {
@@ -26,9 +27,11 @@ export default class Chance extends React.Component {
     });
     return (
       <View style={styles.circle}>
-        <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
-          {this.props.timer !== 0 ? this.props.timer : ''}
-        </Animated.Text>
+        {this.props.game ? (
+          <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
+            {this.props.timer}
+          </Animated.Text>
+        ) : null}
       </View>
     );
   }

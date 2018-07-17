@@ -1,18 +1,49 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+  Easing
+} from 'react-native';
 
-export const ButtonGame = ({ startGame, speech }) => {
-  return (
-    <TouchableOpacity style={styles.circle} onPress={startGame}>
-      <Text style={styles.text}>{speech}</Text>
-    </TouchableOpacity>
-  );
-};
+export default class ButtonGame extends React.Component {
+  constructor() {
+    super();
+    this.animatedValue = new Animated.Value(0);
+  }
+
+  componentDidMount() {
+    this.animate();
+  }
+
+  animate() {
+    Animated.timing(this.animatedValue, {
+      toValue: 1,
+      duration: 500,
+      easing: Easing.linear
+    }).start(() => this.animate());
+  }
+
+  render() {
+    const { startGame, speech } = this.props;
+    const resizeText = this.animatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [20, 25, 20]
+    });
+    return (
+      <TouchableOpacity style={styles.circle} onPress={startGame}>
+        <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
+          {speech}
+        </Animated.Text>
+      </TouchableOpacity>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
-    fontSize: 20,
     fontWeight: 'bold',
     color: '#fff'
   },

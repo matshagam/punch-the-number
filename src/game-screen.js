@@ -3,12 +3,13 @@ import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 
 import { Attempts } from './components/attempts';
 import { InputGuess } from './components/input-guess';
-import Chance from './components/chance';
 import { LeftCircle } from './components/left-circle';
 import { RightCircle } from './components/right-circle';
-import { ButtonGame } from './components/button-game';
 
 import { setAsync, getAsync, randomNumber } from './components/helpers';
+
+import ButtonGame from './components/button-game';
+import Chance from './components/chance';
 
 var count = 0,
   lastGame = 0,
@@ -153,7 +154,7 @@ export default class GameScreen extends React.Component {
         </View>
         <View style={styles.main}>
           <View style={styles.mainHeader}>
-            <Chance timer={this.state.timer} />
+            <Chance timer={this.state.timer} game={this.state.game} />
             <Attempts
               attempts={this.state.attempts}
               checkGuess={this.checkGuess}
@@ -165,17 +166,13 @@ export default class GameScreen extends React.Component {
           {!this.state.game ? (
             <ButtonGame speech={this.state.speech} startGame={this.startGame} />
           ) : (
-            <InputGuess getGuess={this.getGuess} chance={this.state.chance} />
+            <InputGuess getGuess={this.getGuess} />
           )}
         </View>
       </KeyboardAvoidingView>
     );
   }
 }
-
-// GameScreen.defaultProps = {
-//   game: false
-// };
 
 const styles = StyleSheet.create({
   body: {
