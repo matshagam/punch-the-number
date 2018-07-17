@@ -25,11 +25,12 @@ export default class Chance extends React.Component {
       inputRange: [0, 0.5, 1],
       outputRange: [20, 30, 10]
     });
+    console.log(this.props.check);
     return (
       <View style={styles.circle}>
         {this.props.game ? (
           <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
-            {this.props.timer}
+            {!this.props.check ? this.props.timer : this.props.chance}
           </Animated.Text>
         ) : null}
       </View>

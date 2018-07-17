@@ -7,7 +7,7 @@ import {
   Easing
 } from 'react-native';
 
-export default class ButtonGame extends React.Component {
+export default class ButtonGame extends React.PureComponent {
   constructor() {
     super();
     this.animatedValue = new Animated.Value(0);

@@ -36,7 +36,7 @@ export default class GameScreen extends React.Component {
       randomNumber: randomNumber(),
       circleSize: 100,
       speech: 'Start',
-      chance: 100
+      check: false
     };
     this.getGuess = this.getGuess.bind(this);
   }
@@ -45,31 +45,37 @@ export default class GameScreen extends React.Component {
     count++;
 
     if (Number(this.state.guess) === this.state.randomNumber) {
-      this.setState({
-        chance: 'Win!'
-      });
       count;
       this.endGame();
     } else if (count === 10) {
       this.setState({
-        chance: '',
         attempts: ''
       });
       this.endGame();
     } else {
+      this.setState(
+        {
+          attempts: 10 - count,
+          circleSize: this.state.circleSize - 5,
+          check: true
+        },
+        () => {
+          setTimeout(() => {
+            this.setState({
+              check: false
+            });
+          }, 1000);
+        }
+      );
+    }
+    if (Number(this.state.guess) < this.state.randomNumber) {
       this.setState({
-        attempts: 10 - count,
-        circleSize: this.state.circleSize - 5
+        chance: 'Low!'
       });
-      if (Number(this.state.guess) < this.state.randomNumber) {
-        this.setState({
-          chance: 'Low!'
-        });
-      } else if (Number(this.state.guess) > this.state.randomNumber) {
-        this.setState({
-          chance: 'High!'
-        });
-      }
+    } else if (Number(this.state.guess) > this.state.randomNumber) {
+      this.setState({
+        chance: 'High!'
+      });
     }
   };
 
@@ -89,7 +95,6 @@ export default class GameScreen extends React.Component {
     this.setState({
       game: !this.state.game,
       attempts: 'Punch!',
-      chance: '?',
       randomNumber: randomNumber(),
       trueGame: this.state.trueGame + 1,
       circleSize: 100,
@@ -154,7 +159,13 @@ export default class GameScreen extends React.Component {
         </View>
         <View style={styles.main}>
           <View style={styles.mainHeader}>
-            <Chance timer={this.state.timer} game={this.state.game} />
+            <Chance
+              timer={this.state.timer}
+              game={this.state.game}
+              attempts={this.state.attempts}
+              chance={this.state.chance}
+              check={this.state.check}
+            />
             <Attempts
               attempts={this.state.attempts}
               checkGuess={this.checkGuess}
