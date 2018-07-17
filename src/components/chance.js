@@ -1,13 +1,38 @@
 import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, Animated, Easing } from 'react-native';
 
-export const Chance = props => {
-  return (
-    <View style={styles.circle}>
-      <Text style={styles.text}>{props.timer !== 0 ? props.timer : ''}</Text>
-    </View>
-  );
-};
+export default class Chance extends React.Component {
+  constructor() {
+    super();
+    this.animatedValue = new Animated.Value(0);
+  }
+
+  componentDidMount() {
+    this.animate();
+  }
+  animate() {
+    this.animatedValue.setValue(0);
+    Animated.timing(this.animatedValue, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear
+    }).start(() => this.animate());
+  }
+
+  render() {
+    const resizeText = this.animatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [20, 30, 10]
+    });
+    return (
+      <View style={styles.circle}>
+        <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
+          {this.props.timer !== 0 ? this.props.timer : ''}
+        </Animated.Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   circle: {
@@ -19,7 +44,6 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 20,
     fontWeight: 'bold',
     color: '#9B9B9B'
   }

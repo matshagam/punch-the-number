@@ -3,7 +3,7 @@ import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 
 import { Attempts } from './components/attempts';
 import { InputGuess } from './components/input-guess';
-import { Chance } from './components/chance';
+import Chance from './components/chance';
 import { LeftCircle } from './components/left-circle';
 import { RightCircle } from './components/right-circle';
 import { ButtonGame } from './components/button-game';
@@ -34,7 +34,6 @@ export default class GameScreen extends React.Component {
       guess: 0,
       randomNumber: randomNumber(),
       circleSize: 100,
-      timer: 20,
       speech: 'Start',
       chance: 100
     };
@@ -93,7 +92,7 @@ export default class GameScreen extends React.Component {
       randomNumber: randomNumber(),
       trueGame: this.state.trueGame + 1,
       circleSize: 100,
-      timer: 15
+      timer: 20
     });
     count = 0;
 
@@ -102,7 +101,7 @@ export default class GameScreen extends React.Component {
 
   endGame = () => {
     clearInterval(interval);
-    interval = 15;
+    interval = 20;
 
     this.setState(
       {
@@ -173,6 +172,10 @@ export default class GameScreen extends React.Component {
     );
   }
 }
+
+// GameScreen.defaultProps = {
+//   game: false
+// };
 
 const styles = StyleSheet.create({
   body: {
