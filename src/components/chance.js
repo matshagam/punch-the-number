@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, Animated, Easing } from 'react-native';
+import { StyleSheet, View, Animated, Easing } from 'react-native';
 
 export default class Chance extends React.Component {
   constructor() {
@@ -14,7 +14,7 @@ export default class Chance extends React.Component {
   animate() {
     this.animatedValue.setValue(0);
     Animated.timing(this.animatedValue, {
-      toValue: 1,
+      toValue: 2,
       duration: 1000,
       easing: Easing.linear
     }).start(() => this.animate());
@@ -23,8 +23,8 @@ export default class Chance extends React.Component {
   render() {
     const { styler, timer, check, chance, game } = this.props;
     const resizeText = this.animatedValue.interpolate({
-      inputRange: [0, 0.5, 1],
-      outputRange: [20, 30, 10]
+      inputRange: [0, 1, 2],
+      outputRange: [10, 25, 10]
     });
     return (
       <View style={[styler, styles.circle]}>

@@ -6,7 +6,7 @@ import { InputGuess } from './components/input-guess';
 import { LeftCircle } from './components/left-circle';
 import { RightCircle } from './components/right-circle';
 
-import { setAsync, getAsync, randomNumber } from './components/helpers';
+import { setAsync, getAsync, randomNumber } from './helpers/helpers';
 
 import ButtonGame from './components/button-game';
 import Chance from './components/chance';

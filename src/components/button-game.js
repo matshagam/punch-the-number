@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  Easing
-} from 'react-native';
+import { StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
 
 export default class ButtonGame extends React.PureComponent {
   constructor() {
