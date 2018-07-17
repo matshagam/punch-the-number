@@ -21,16 +21,16 @@ export default class Chance extends React.Component {
   }
 
   render() {
+    const { styler, timer, check, chance, game } = this.props;
     const resizeText = this.animatedValue.interpolate({
       inputRange: [0, 0.5, 1],
       outputRange: [20, 30, 10]
     });
-    console.log(this.props.check);
     return (
-      <View style={styles.circle}>
-        {this.props.game ? (
+      <View style={[styler, styles.circle]}>
+        {game ? (
           <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
-            {!this.props.check ? this.props.timer : this.props.chance}
+            {!check ? timer : chance}
           </Animated.Text>
         ) : null}
       </View>
@@ -39,16 +39,12 @@ export default class Chance extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  circle: {
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-    justifyContent: 'center',
-    backgroundColor: '#fff'
-  },
   text: {
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#9B9B9B'
+  },
+  circle: {
+    backgroundColor: '#fff'
   }
 });

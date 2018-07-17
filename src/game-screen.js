@@ -12,14 +12,14 @@ import ButtonGame from './components/button-game';
 import Chance from './components/chance';
 
 var count = 0,
-  lastGame = 0,
-  trueGame = 0,
+  lastGame,
+  trueGame,
   interval;
 
-getAsync('attempts').then(data => {
+getAsync('LAST_GAME').then(data => {
   lastGame = data === 10 ? 'Lost' : data;
 });
-getAsync('gameNumber').then(data => {
+getAsync('TRUE_GAME').then(data => {
   trueGame = data;
 });
 
@@ -28,15 +28,15 @@ export default class GameScreen extends React.Component {
     super(props);
 
     this.state = {
+      randomNumber: randomNumber(),
       lastGame: lastGame,
       trueGame: trueGame,
       game: false,
-      attempts: 'Punch!',
-      guess: 0,
-      randomNumber: randomNumber(),
-      circleSize: 100,
+      check: false,
       speech: 'Start',
-      check: false
+      attempts: 'Punch!',
+      circleSize: 100,
+      guess: 0
     };
     this.getGuess = this.getGuess.bind(this);
   }
@@ -45,7 +45,6 @@ export default class GameScreen extends React.Component {
     count++;
 
     if (Number(this.state.guess) === this.state.randomNumber) {
-      count;
       this.endGame();
     } else if (count === 10) {
       this.setState({
@@ -86,7 +85,7 @@ export default class GameScreen extends React.Component {
   };
 
   startGame = () => {
-    getAsync('attempts').then(data => {
+    getAsync('LAST_GAME').then(data => {
       this.setState({
         lastGame: data === 10 ? 'Lost' : data
       });
@@ -109,14 +108,20 @@ export default class GameScreen extends React.Component {
     clearInterval(interval);
     interval = 20;
 
+    setAsync(
+      'LAST_GAME',
+      Number(this.state.guess) === this.state.randomNumber ? count : 10
+    );
+    setAsync('TRUE_GAME', this.state.trueGame);
+
     this.setState(
       {
         game: !this.state.game,
-        guess: '',
         speech:
           Number(this.state.guess) === this.state.randomNumber
             ? 'YAPPY!'
-            : 'OHHH!'
+            : 'OHHH!',
+        guess: ''
       },
       () => {
         setTimeout(() => {
@@ -126,12 +131,6 @@ export default class GameScreen extends React.Component {
         }, 3000);
       }
     );
-
-    setAsync(
-      'attempts',
-      Number(this.state.guess) === this.state.randomNumber ? count : 10
-    );
-    setAsync('gameNumber', this.state.trueGame);
   };
 
   startTimer = () => {
@@ -149,35 +148,52 @@ export default class GameScreen extends React.Component {
   };
 
   render() {
-    console.log(this.state.randomNumber);
+    const {
+      randomNumber,
+      lastGame,
+      trueGame,
+      timer,
+      game,
+      attempts,
+      chance,
+      check,
+      circleSize,
+      speech
+    } = this.state;
+    console.log({ randomNumber });
 
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">
-        <View style={styles.header}>
-          <LeftCircle lastGame={this.state.lastGame} />
-          <RightCircle trueGame={this.state.trueGame} />
+        <View style={styles.head}>
+          <LeftCircle lastGame={lastGame} />
+          <RightCircle trueGame={trueGame} />
         </View>
         <View style={styles.main}>
           <View style={styles.mainHeader}>
             <Chance
-              timer={this.state.timer}
-              game={this.state.game}
-              attempts={this.state.attempts}
-              chance={this.state.chance}
-              check={this.state.check}
+              game={game}
+              timer={timer}
+              check={check}
+              chance={chance}
+              attempts={attempts}
+              styler={styles.circle}
             />
             <Attempts
-              attempts={this.state.attempts}
-              checkGuess={this.checkGuess}
+              game={game}
               count={count}
-              circleSize={this.state.circleSize}
-              game={this.state.game}
+              attempts={attempts}
+              circleSize={circleSize}
+              checkGuess={this.checkGuess}
             />
           </View>
-          {!this.state.game ? (
-            <ButtonGame speech={this.state.speech} startGame={this.startGame} />
+          {!game ? (
+            <ButtonGame
+              speech={speech}
+              styler={styles.circle}
+              startGame={this.startGame}
+            />
           ) : (
-            <InputGuess getGuess={this.getGuess} />
+            <InputGuess styler={styles.circle} getGuess={this.getGuess} />
           )}
         </View>
       </KeyboardAvoidingView>
@@ -192,7 +208,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 100
   },
-  header: {
+  head: {
     flex: 1,
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -211,5 +227,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 32,
     marginTop: 16
+  },
+  circle: {
+    height: 100,
+    width: 100,
+    borderRadius: 100,
+    justifyContent: 'center'
   }
 });
