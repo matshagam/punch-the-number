@@ -12,15 +12,15 @@ import ButtonGame from './components/button-game';
 import Chance from './components/chance';
 
 var count = 0,
-  lastGame,
-  trueGame,
-  interval;
+  LAST_GAME,
+  TRUE_GAME,
+  INTERVAL;
 
-getAsync('LAST_GAME').then(data => {
-  lastGame = data === 10 ? 'Lost' : data;
-});
 getAsync('TRUE_GAME').then(data => {
-  trueGame = data;
+  TRUE_GAME = data;
+});
+getAsync('LAST_GAME').then(data => {
+  LAST_GAME = data === 10 ? 'Lost' : data;
 });
 
 export default class GameScreen extends React.Component {
@@ -29,8 +29,8 @@ export default class GameScreen extends React.Component {
 
     this.state = {
       randomNumber: randomNumber(),
-      lastGame: lastGame,
-      trueGame: trueGame,
+      lastGame: LAST_GAME,
+      trueGame: TRUE_GAME,
       game: false,
       check: false,
       speech: 'Start',
@@ -105,8 +105,8 @@ export default class GameScreen extends React.Component {
   };
 
   endGame = () => {
-    clearInterval(interval);
-    interval = 20;
+    clearInterval(INTERVAL);
+    INTERVAL = 20;
 
     setAsync(
       'LAST_GAME',
@@ -134,7 +134,7 @@ export default class GameScreen extends React.Component {
   };
 
   startTimer = () => {
-    interval = setInterval(this.tick, 1000);
+    INTERVAL = setInterval(this.tick, 1000);
   };
 
   tick = () => {
