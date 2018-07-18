@@ -37,7 +37,8 @@ export default class GameScreen extends React.Component {
       attempts: 'Punch!',
       chance: '',
       guess: 0,
-      circleSize: 100
+      circleSize: 100,
+      winner: false
     };
     this.getGuess = this.getGuess.bind(this);
   }
@@ -46,6 +47,9 @@ export default class GameScreen extends React.Component {
     count++;
 
     if (Number(this.state.guess) === this.state.randomNumber) {
+      this.setState({
+        winner: true
+      });
       this.endGame();
     } else if (count === 10) {
       this.setState({
@@ -102,7 +106,7 @@ export default class GameScreen extends React.Component {
     });
     count = 0;
 
-    // this.startTimer();
+    this.startTimer();
   };
 
   endGame = () => {
@@ -159,7 +163,8 @@ export default class GameScreen extends React.Component {
       chance,
       check,
       circleSize,
-      speech
+      speech,
+      winner
     } = this.state;
     console.log({ randomNumber });
 
@@ -191,6 +196,7 @@ export default class GameScreen extends React.Component {
             <Attempts
               game={game}
               count={count}
+              winner={winner}
               attempts={attempts}
               circle={styles.circle}
               circleSize={circleSize}
@@ -204,7 +210,11 @@ export default class GameScreen extends React.Component {
               startGame={this.startGame}
             />
           ) : (
-            <InputGuess circle={styles.circle} getGuess={this.getGuess} />
+            <InputGuess
+              circle={styles.circle}
+              getGuess={this.getGuess}
+              randomNumber={randomNumber}
+            />
           )}
         </View>
       </KeyboardAvoidingView>

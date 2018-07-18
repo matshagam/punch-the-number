@@ -11,6 +11,7 @@ export const Attempts = ({
   game,
   count,
   circle,
+  winner,
   attempts,
   checkGuess,
   circleSize
@@ -29,7 +30,11 @@ export const Attempts = ({
                   borderRadius: circleSize
                 }
               ]
-            : [circle, styles.button, { backgroundColor: '#6041CF' }]
+            : [
+                circle,
+                styles.button,
+                !winner ? { backgroundColor: '#6041CF' } : null
+              ]
         }
         accessible={false}
         onPress={checkGuess}

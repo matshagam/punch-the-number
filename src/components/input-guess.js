@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 
-export const InputGuess = ({ getGuess, circle }) => {
+export const InputGuess = ({ getGuess, circle, randomNumber }) => {
   return (
     <View style={[circle, styles.circle]}>
       <TextInput
-        maxLength={2}
+        maxLength={randomNumber !== 100 ? 2 : 3}
         keyboardType="numeric"
         clearTextOnFocus={true}
         style={styles.text}
