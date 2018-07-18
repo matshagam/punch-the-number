@@ -38,7 +38,7 @@ export default class GameScreen extends React.Component {
       chance: '',
       guess: 0,
       circleSize: 100,
-      winner: false
+      winner: typeof LAST_GAME === 'number' ? true : false
     };
     this.getGuess = this.getGuess.bind(this);
   }
@@ -46,15 +46,7 @@ export default class GameScreen extends React.Component {
   checkGuess = () => {
     count++;
 
-    if (Number(this.state.guess) === this.state.randomNumber) {
-      this.setState({
-        winner: true
-      });
-      this.endGame();
-    } else if (count === 10) {
-      this.setState({
-        attempts: ''
-      });
+    if (Number(this.state.guess) === this.state.randomNumber || count === 10) {
       this.endGame();
     } else {
       this.setState(
@@ -110,8 +102,12 @@ export default class GameScreen extends React.Component {
   };
 
   endGame = () => {
-    clearInterval(INTERVAL);
-    INTERVAL = 20;
+    this.state.timer === 0 || count === 10
+      ? this.setState({ winner: false })
+      : this.setState({
+          winner: true,
+          circleSize: 100
+        });
 
     setAsync(
       'LAST_GAME',
@@ -126,7 +122,8 @@ export default class GameScreen extends React.Component {
           Number(this.state.guess) === this.state.randomNumber
             ? 'YAPPY!'
             : 'OHHH!',
-        guess: ''
+        guess: '',
+        attempts: ''
       },
       () => {
         setTimeout(() => {
@@ -136,6 +133,7 @@ export default class GameScreen extends React.Component {
         }, 3000);
       }
     );
+    clearInterval(INTERVAL);
   };
 
   startTimer = () => {
@@ -148,6 +146,7 @@ export default class GameScreen extends React.Component {
         timer: this.state.timer - 1
       });
     } else {
+      // this.setState({ winner: false });
       this.endGame();
     }
   };
@@ -166,7 +165,7 @@ export default class GameScreen extends React.Component {
       speech,
       winner
     } = this.state;
-    console.log({ randomNumber });
+    console.log({ randomNumber, winner });
 
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">

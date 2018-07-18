@@ -19,23 +19,18 @@ export const Attempts = ({
   return (
     <View style={[circle, styles.button, { backgroundColor: '#6041CF' }]}>
       <TouchableOpacity
-        style={
-          count !== 10 && game
-            ? [
-                circle,
-                styles.button,
-                {
-                  height: circleSize,
-                  width: circleSize,
-                  borderRadius: circleSize
-                }
-              ]
-            : [
-                circle,
-                styles.button,
-                !winner ? { backgroundColor: '#6041CF' } : null
-              ]
-        }
+        style={[
+          circle,
+          styles.button,
+          count !== 10
+            ? {
+                height: circleSize,
+                width: circleSize,
+                borderRadius: circleSize
+              }
+            : null,
+          !winner && !game ? { backgroundColor: '#6041CF' } : null
+        ]}
         accessible={false}
         onPress={checkGuess}
         onPressOut={Keyboard.dismiss}
