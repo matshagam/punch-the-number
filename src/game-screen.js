@@ -35,8 +35,9 @@ export default class GameScreen extends React.Component {
       check: false,
       speech: 'Start',
       attempts: 'Punch!',
-      circleSize: 100,
-      guess: 0
+      chance: '',
+      guess: 0,
+      circleSize: 100
     };
     this.getGuess = this.getGuess.bind(this);
   }
@@ -165,8 +166,18 @@ export default class GameScreen extends React.Component {
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">
         <View style={styles.head}>
-          <LeftCircle lastGame={lastGame} />
-          <RightCircle trueGame={trueGame} />
+          <LeftCircle
+            lastGame={lastGame}
+            games={styles.games}
+            circlesText={styles.circlesText}
+            headerCircles={styles.headerCircles}
+          />
+          <RightCircle
+            trueGame={trueGame}
+            games={styles.games}
+            circlesText={styles.circlesText}
+            headerCircles={styles.headerCircles}
+          />
         </View>
         <View style={styles.main}>
           <View style={styles.mainHeader}>
@@ -234,5 +245,28 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 100,
     justifyContent: 'center'
+  },
+  games: {
+    height: 130,
+    width: 130,
+    borderRadius: 130,
+    backgroundColor: '#9B9B9B',
+    flexDirection: 'row',
+    alignSelf: 'flex-end'
+  },
+  headerCircles: {
+    height: 80,
+    width: 80,
+    borderRadius: 80,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    margin: 5
+  },
+  circlesText: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#9B9B9B'
   }
 });
