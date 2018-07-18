@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Attempts } from './components/attempts';
 import { InputGuess } from './components/input-guess';
@@ -182,6 +182,7 @@ export default class GameScreen extends React.Component {
               game={game}
               count={count}
               attempts={attempts}
+              styler={styles.circle}
               circleSize={circleSize}
               checkGuess={this.checkGuess}
             />

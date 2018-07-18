@@ -2,18 +2,26 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Keyboard,
+  StyleSheet,
   TouchableOpacity
 } from 'react-native';
 
-export const Attempts = ({ game, checkGuess, attempts, circleSize, count }) => {
+export const Attempts = ({
+  game,
+  count,
+  styler,
+  attempts,
+  checkGuess,
+  circleSize
+}) => {
   return (
-    <View style={[styles.button, { backgroundColor: '#6041CF' }]}>
+    <View style={[styler, styles.button, { backgroundColor: '#6041CF' }]}>
       <TouchableOpacity
         style={
           count !== 10 && game
             ? [
+                styler,
                 styles.button,
                 {
                   height: circleSize,
@@ -21,11 +29,11 @@ export const Attempts = ({ game, checkGuess, attempts, circleSize, count }) => {
                   borderRadius: circleSize
                 }
               ]
-            : [styles.button, { backgroundColor: '#6041CF' }]
+            : [styler, styles.button, { backgroundColor: '#6041CF' }]
         }
+        accessible={false}
         onPress={checkGuess}
         onPressOut={Keyboard.dismiss}
-        accessible={false}
         disabled={!game ? true : false}
       >
         <Text style={styles.p}>{game ? attempts : null}</Text>
@@ -36,10 +44,6 @@ export const Attempts = ({ game, checkGuess, attempts, circleSize, count }) => {
 
 const styles = StyleSheet.create({
   button: {
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-    justifyContent: 'center',
     backgroundColor: '#fff',
     alignSelf: 'center'
   },
