@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
     color: '#9B9B9B',
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    padding: 24
   },
   circle: {
     backgroundColor: '#fff',

@@ -1,11 +1,11 @@
 import { AsyncStorage, StyleSheet } from 'react-native';
 
-export function setAsync(key, value) {
-  return AsyncStorage.setItem(key, JSON.stringify(value));
+export async function setAsync(key, value) {
+  return await AsyncStorage.setItem(key, JSON.stringify(value));
 }
 
-export function getAsync(key) {
-  return AsyncStorage.getItem(key).then(data => JSON.parse(data));
+export async function getAsync(key) {
+  return await AsyncStorage.getItem(key).then(data => JSON.parse(data));
 }
 
 export function randomNumber() {

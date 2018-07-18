@@ -102,7 +102,7 @@ export default class GameScreen extends React.Component {
     });
     count = 0;
 
-    this.startTimer();
+    // this.startTimer();
   };
 
   endGame = () => {
