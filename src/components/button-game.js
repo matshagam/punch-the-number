@@ -20,13 +20,13 @@ export default class ButtonGame extends React.PureComponent {
   }
 
   render() {
-    const { startGame, speech, styler } = this.props;
+    const { startGame, speech, circle } = this.props;
     const resizeText = this.animatedValue.interpolate({
       inputRange: [0, 0.5, 1],
       outputRange: [20, 25, 20]
     });
     return (
-      <TouchableOpacity style={[styler, styles.circle]} onPress={startGame}>
+      <TouchableOpacity style={[circle, styles.circle]} onPress={startGame}>
         <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
           {speech}
         </Animated.Text>

@@ -187,13 +187,13 @@ export default class GameScreen extends React.Component {
               check={check}
               chance={chance}
               attempts={attempts}
-              styler={styles.circle}
+              circle={styles.circle}
             />
             <Attempts
               game={game}
               count={count}
               attempts={attempts}
-              styler={styles.circle}
+              circle={styles.circle}
               circleSize={circleSize}
               checkGuess={this.checkGuess}
             />
@@ -201,11 +201,11 @@ export default class GameScreen extends React.Component {
           {!game ? (
             <ButtonGame
               speech={speech}
-              styler={styles.circle}
+              circle={styles.circle}
               startGame={this.startGame}
             />
           ) : (
-            <InputGuess styler={styles.circle} getGuess={this.getGuess} />
+            <InputGuess circle={styles.circle} getGuess={this.getGuess} />
           )}
         </View>
       </KeyboardAvoidingView>

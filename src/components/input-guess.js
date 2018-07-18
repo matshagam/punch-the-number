@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 
-export const InputGuess = ({ getGuess, styler }) => {
+export const InputGuess = ({ getGuess, circle }) => {
   return (
-    <View style={[styler, styles.circle]}>
+    <View style={[circle, styles.circle]}>
       <TextInput
         maxLength={2}
         keyboardType="numeric"

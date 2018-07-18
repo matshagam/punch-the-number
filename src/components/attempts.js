@@ -10,18 +10,18 @@ import {
 export const Attempts = ({
   game,
   count,
-  styler,
+  circle,
   attempts,
   checkGuess,
   circleSize
 }) => {
   return (
-    <View style={[styler, styles.button, { backgroundColor: '#6041CF' }]}>
+    <View style={[circle, styles.button, { backgroundColor: '#6041CF' }]}>
       <TouchableOpacity
         style={
           count !== 10 && game
             ? [
-                styler,
+                circle,
                 styles.button,
                 {
                   height: circleSize,
@@ -29,7 +29,7 @@ export const Attempts = ({
                   borderRadius: circleSize
                 }
               ]
-            : [styler, styles.button, { backgroundColor: '#6041CF' }]
+            : [circle, styles.button, { backgroundColor: '#6041CF' }]
         }
         accessible={false}
         onPress={checkGuess}

@@ -21,13 +21,13 @@ export default class Chance extends React.Component {
   }
 
   render() {
-    const { styler, timer, check, chance, game } = this.props;
+    const { circle, timer, check, chance, game } = this.props;
     const resizeText = this.animatedValue.interpolate({
       inputRange: [0, 1, 2],
       outputRange: [10, 25, 10]
     });
     return (
-      <View style={[styler, styles.circle]}>
+      <View style={[circle, styles.circle]}>
         {game ? (
           <Animated.Text style={[styles.text, { fontSize: resizeText }]}>
             {!check ? timer : chance}
