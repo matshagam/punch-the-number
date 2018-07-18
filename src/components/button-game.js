@@ -15,7 +15,8 @@ export default class ButtonGame extends React.PureComponent {
     Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: 500,
-      easing: Easing.linear
+      easing: Easing.linear,
+      useNativeDriver: true
     }).start(() => this.animate());
   }
 

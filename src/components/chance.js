@@ -16,7 +16,8 @@ export default class Chance extends React.Component {
     Animated.timing(this.animatedValue, {
       toValue: 2,
       duration: 1000,
-      easing: Easing.linear
+      easing: Easing.linear,
+      useNativeDriver: true
     }).start(() => this.animate());
   }
 
