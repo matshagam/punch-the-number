@@ -146,7 +146,6 @@ export default class GameScreen extends React.Component {
         timer: this.state.timer - 1
       });
     } else {
-      // this.setState({ winner: false });
       this.endGame();
     }
   };
