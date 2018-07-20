@@ -11,7 +11,7 @@ import { setAsync, randomNumber, styles } from './helpers/helpers';
 import ButtonGame from './components/button-game';
 import Chance from './components/chance';
 
-var count = 0;
+const COUNT = 0;
 
 export default class GameScreen extends React.Component {
   constructor(props) {
@@ -24,7 +24,6 @@ export default class GameScreen extends React.Component {
       game: false,
       check: false,
       speech: 'Start',
-      attempts: 'Punch!',
       chance: '',
       guess: 0,
       circleSize: 100,
@@ -45,14 +44,14 @@ export default class GameScreen extends React.Component {
   }
 
   checkGuess = () => {
-    count++;
+    COUNT++;
 
-    if (Number(this.state.guess) === this.state.randomNumber || count === 10) {
+    if (Number(this.state.guess) === this.state.randomNumber || COUNT === 10) {
       this.endGame();
     } else {
       this.setState(
         {
-          attempts: 10 - count,
+          attempts: 10 - COUNT,
           circleSize: this.state.circleSize - 5,
           check: true
         },
@@ -91,23 +90,23 @@ export default class GameScreen extends React.Component {
       circleSize: 100,
       timer: 20
     });
-    count = 0;
+    COUNT = 0;
 
     this.startTimer();
   };
 
   endGame = () => {
-    this.state.timer === 0 || count === 10
+    this.state.timer === 0 || COUNT === 10
       ? this.setState({ winner: false, lastGame: 'Lost' })
       : this.setState({
           winner: true,
           circleSize: 100,
-          lastGame: count
+          lastGame: COUNT
         });
 
     setAsync(
       'LAST_GAME',
-      Number(this.state.guess) === this.state.randomNumber ? count : 10
+      Number(this.state.guess) === this.state.randomNumber ? COUNT : 10
     );
     setAsync('TRUE_GAME', this.state.trueGame);
 
@@ -172,7 +171,8 @@ export default class GameScreen extends React.Component {
       check,
       circleSize,
       speech,
-      winner
+      winner,
+      COUNT
     });
 
     return (
@@ -202,7 +202,7 @@ export default class GameScreen extends React.Component {
             />
             <Attempts
               game={game}
-              count={count}
+              COUNT={COUNT}
               winner={winner}
               attempts={attempts}
               circle={styles.circle}

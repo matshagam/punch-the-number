@@ -9,7 +9,7 @@ import {
 
 export const Attempts = ({
   game,
-  count,
+  COUNT,
   circle,
   winner,
   attempts,
@@ -22,7 +22,7 @@ export const Attempts = ({
         style={[
           circle,
           styles.button,
-          count !== 10
+          COUNT !== 10
             ? {
                 height: circleSize,
                 width: circleSize,
