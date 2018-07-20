@@ -1,27 +1,18 @@
 import React from 'react';
-import { View, KeyboardAvoidingView } from 'react-native';
+import { View, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 
 import { Attempts } from './components/attempts';
 import { InputGuess } from './components/input-guess';
 import { LeftCircle } from './components/left-circle';
 import { RightCircle } from './components/right-circle';
 
-import { setAsync, getAsync, randomNumber, styles } from './helpers/helpers';
+import { setAsync, randomNumber, styles } from './helpers/helpers';
 
 import ButtonGame from './components/button-game';
 import Chance from './components/chance';
 
 var count = 0,
-  LAST_GAME,
-  TRUE_GAME,
   INTERVAL;
-
-getAsync('TRUE_GAME').then(data => {
-  TRUE_GAME = data;
-});
-getAsync('LAST_GAME').then(data => {
-  LAST_GAME = data === 10 ? 'Lost' : data;
-});
 
 export default class GameScreen extends React.Component {
   constructor(props) {
@@ -29,8 +20,8 @@ export default class GameScreen extends React.Component {
 
     this.state = {
       randomNumber: randomNumber(),
-      lastGame: LAST_GAME,
-      trueGame: TRUE_GAME,
+      lastGame: '',
+      trueGame: '',
       game: false,
       check: false,
       speech: 'Start',
@@ -38,9 +29,19 @@ export default class GameScreen extends React.Component {
       chance: '',
       guess: 0,
       circleSize: 100,
-      winner: typeof LAST_GAME === 'number' ? true : false
+      winner: ''
     };
     this.getGuess = this.getGuess.bind(this);
+  }
+
+  componentDidMount() {
+    AsyncStorage.multiGet(['TRUE_GAME', 'LAST_GAME']).then(data => {
+      this.setState({
+        trueGame: Number(data[0][1]),
+        lastGame: Number(data[1][1]) === 10 ? 'Lost' : Number(data[1][1]),
+        winner: Number(data[1][1]) === 10 ? false : true
+      });
+    });
   }
 
   checkGuess = () => {
@@ -82,12 +83,6 @@ export default class GameScreen extends React.Component {
   };
 
   startGame = () => {
-    getAsync('LAST_GAME').then(data => {
-      this.setState({
-        lastGame: data === 10 ? 'Lost' : data
-      });
-    });
-
     this.setState({
       game: !this.state.game,
       attempts: 'Punch!',
@@ -103,10 +98,11 @@ export default class GameScreen extends React.Component {
 
   endGame = () => {
     this.state.timer === 0 || count === 10
-      ? this.setState({ winner: false })
+      ? this.setState({ winner: false, lastGame: 'Lost' })
       : this.setState({
           winner: true,
-          circleSize: 100
+          circleSize: 100,
+          lastGame: count
         });
 
     setAsync(
@@ -164,7 +160,19 @@ export default class GameScreen extends React.Component {
       speech,
       winner
     } = this.state;
-    console.log({ randomNumber, winner });
+    console.log({
+      randomNumber,
+      lastGame,
+      trueGame,
+      timer,
+      game,
+      attempts,
+      chance,
+      check,
+      circleSize,
+      speech,
+      winner
+    });
 
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">
