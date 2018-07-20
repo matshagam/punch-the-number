@@ -4,10 +4,6 @@ export async function setAsync(key, value) {
   return await AsyncStorage.setItem(key, JSON.stringify(value));
 }
 
-// export async function getAsync(key) {
-//   return await AsyncStorage.getItem(key).then(data => JSON.parse(data));
-// }
-
 export function randomNumber() {
   return Math.floor(Math.random() * 100) + 1;
 }

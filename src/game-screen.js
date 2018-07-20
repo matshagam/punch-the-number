@@ -11,8 +11,7 @@ import { setAsync, randomNumber, styles } from './helpers/helpers';
 import ButtonGame from './components/button-game';
 import Chance from './components/chance';
 
-var count = 0,
-  INTERVAL;
+var count = 0;
 
 export default class GameScreen extends React.Component {
   constructor(props) {
@@ -29,7 +28,8 @@ export default class GameScreen extends React.Component {
       chance: '',
       guess: 0,
       circleSize: 100,
-      winner: ''
+      winner: '',
+      timer: null
     };
     this.getGuess = this.getGuess.bind(this);
   }
@@ -129,11 +129,12 @@ export default class GameScreen extends React.Component {
         }, 3000);
       }
     );
-    clearInterval(INTERVAL);
+    clearInterval(this.state.interval);
   };
 
   startTimer = () => {
-    INTERVAL = setInterval(this.tick, 1000);
+    let interval = setInterval(this.tick, 1000);
+    this.setState({ interval });
   };
 
   tick = () => {
