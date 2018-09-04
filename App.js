@@ -1,9 +1,24 @@
 import React from 'react';
-import GameScreen from './src/game-screen';
+import { KeyboardAvoidingView } from 'react-native';
 
-// main
-export default class App extends React.Component {
-  render() {
-    return <GameScreen />;
-  }
-}
+import { Head } from './src/screens/Head';
+import { Main } from './src/screens/Main';
+
+import StateProvider, { StateContext } from './src/store/StateProvider';
+
+const App = () => {
+  return (
+    <StateProvider>
+      <StateContext.Consumer>
+        {({ styles }) => (
+          <KeyboardAvoidingView style={styles.body} behavior="padding">
+            <Head />
+            <Main />
+          </KeyboardAvoidingView>
+        )}
+      </StateContext.Consumer>
+    </StateProvider>
+  );
+};
+
+export default App;

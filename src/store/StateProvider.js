@@ -1,20 +1,14 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { AsyncStorage } from 'react-native';
 
-import { Attempts } from './components/attempts';
-import { InputGuess } from './components/input-guess';
-import { LeftCircle } from './components/left-circle';
-import { RightCircle } from './components/right-circle';
-
-import { setAsync, randomNumber } from './helpers/helpers';
-import { styles } from './helpers/styles';
-
-import ButtonGame from './components/button-game';
-import Chance from './components/chance';
+import { setAsync, randomNumber } from '../helpers/helpers';
+import { styles } from '../helpers/styles';
 
 const COUNT = 0;
 
-export default class GameScreen extends React.Component {
+export const StateContext = React.createContext();
+
+export default class StateProvider extends React.Component {
   constructor(props) {
     super(props);
 
@@ -148,84 +142,29 @@ export default class GameScreen extends React.Component {
   };
 
   render() {
-    const {
-      randomNumber,
-      lastGame,
-      trueGame,
-      timer,
-      game,
-      attempts,
-      chance,
-      check,
-      circleSize,
-      speech,
-      winner
-    } = this.state;
-    console.log({
-      randomNumber,
-      lastGame,
-      trueGame,
-      timer,
-      game,
-      attempts,
-      chance,
-      check,
-      circleSize,
-      speech,
-      winner,
-      COUNT
-    });
-
     return (
-      <KeyboardAvoidingView style={styles.body} behavior="padding">
-        <View style={styles.head}>
-          <LeftCircle
-            lastGame={lastGame}
-            games={styles.games}
-            circlesText={styles.circlesText}
-            headerCircles={styles.headerCircles}
-          />
-          <RightCircle
-            trueGame={trueGame}
-            games={styles.games}
-            circlesText={styles.circlesText}
-            headerCircles={styles.headerCircles}
-          />
-        </View>
-        <View style={styles.main}>
-          <View style={styles.mainHeader}>
-            <Chance
-              game={game}
-              timer={timer}
-              check={check}
-              chance={chance}
-              circle={styles.circle}
-            />
-            <Attempts
-              game={game}
-              COUNT={COUNT}
-              winner={winner}
-              attempts={attempts}
-              circle={styles.circle}
-              circleSize={circleSize}
-              checkGuess={this.checkGuess}
-            />
-          </View>
-          {!game ? (
-            <ButtonGame
-              speech={speech}
-              circle={styles.circle}
-              startGame={this.startGame}
-            />
-          ) : (
-            <InputGuess
-              circle={styles.circle}
-              getGuess={this.getGuess}
-              randomNumber={randomNumber}
-            />
-          )}
-        </View>
-      </KeyboardAvoidingView>
+      <StateContext.Provider
+        value={{
+          randomNumber: this.state.randomNumber,
+          lastGame: this.state.lastGame,
+          trueGame: this.state.trueGame,
+          game: this.state.game,
+          check: this.state.check,
+          speech: this.state.speech,
+          chance: this.state.chance,
+          guess: this.state.guess,
+          circleSize: this.state.circleSize,
+          winner: this.state.winner,
+          timer: this.state.timer,
+          COUNT: COUNT,
+          styles: styles,
+          checkGuess: this.checkGuess,
+          getGuess: this.getGuess,
+          startGame: this.startGame
+        }}
+      >
+        {this.props.children}
+      </StateContext.Provider>
     );
   }
 }
